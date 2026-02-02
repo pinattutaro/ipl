@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width=, initial-scale=1.0"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Document</title>
     <style>
@@ -95,13 +94,11 @@
         :root {
             --main: #08121D;
             --gold: #70644F;
+            --white: #c9c4b8;
+            --gray: #0A1624;
         }
 
         @media (orientation: portrait) {
-            /* #page > div:not(.tool) {
-                display: none !important;
-            } */
-
             #page > .main {
                 grid-template-areas: "a a" "b b" !important;
 
@@ -123,7 +120,6 @@
 
                 & > .article {
                     justify-content: start !important;
-                    /* font-size: clamp(4cqmin, 5cqmin, 6cqmin) !important; */
                     font-size: 4cqmin !important;
 
                     & > .short {
@@ -158,11 +154,6 @@
             padding: 0;
             width: 100dvw;
             min-height: 100dvh;
-
-            /* overflow-x: hidden;
-            overflow-y: auto;
-            scroll-snap-type: y mandatory; */
-
             background: var(--main);
         }
 
@@ -171,7 +162,6 @@
             animation-timeline: view();
             animation-name: scroll-delay-in, scroll-delay-out;
             animation-range: entry 0% contain 100%, exit 0% exit 100%;
-            /* animation-range: cover 0% cover 50%, cover 50% cover 100%; */
             animation-fill-mode: both, forwards;
             --start: calc(attr(depth number) * -0.5);
             --end: calc(attr(depth number) * 0.5);
@@ -222,30 +212,117 @@
 
             & > .hum-menu {
                 position: fixed;
-                top: 2dvh;
-                right: 2dvw;
-                width: 30px;
-                height: 25px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;
-                align-items: center;
-                cursor: pointer;
+                top: 0;
+                right: 0;
                 z-index: 10;
 
-                &:hover > div:nth-of-type(2) {
-                    width: 120%;
+                & > #hum-menu-checkbox:checked + #menu {
+                    background-color: var(--main);
+
+                    & > #hum {
+                        &::after {
+                            content: "Close";
+                            color: var(--white);
+                            position: absolute;
+                            top: 0;
+                            right: 150%;
+                            height: 100%;
+                            font-size: 80%;
+                            display: grid;
+                            align-content: end;
+                        }
+
+                        & > div {
+                            opacity: 0;
+
+                            &:nth-of-type(2) {
+                                opacity: 1;
+                            }
+                        }
+                    }
+
+                    & > .list {
+                        display: block;
+                    }
                 }
 
-                & > div {
-                    width: 100%;
-                    height: 2px;
-                    background-color: rgba(255, 255, 255, 0.6);
-                    transition: width 0.3s ease;
+                & > #menu {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: fit-content;
+                    height: 100dvh;
+                    /* background-color: var(--main); */
+                    background-color: transparent;
+                    opacity: 0.8;
+                    font-size: calc(3*max(1dvw, 1dvh));
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+
+                    & > #hum {
+                        position: relative;
+                        top: 2dvh;
+                        right: 2dvw;
+                        width: max(2dvw, 5dvh);
+                        height: 25px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-around;
+                        align-items: center;
+                        cursor: pointer;     
+                        
+                        &:hover > div:nth-of-type(2) {
+                            width: 140%;
+                        }
+
+                        & > div {
+                            width: 100%;
+                            height: 2px;
+                            background-color: rgba(255, 255, 255, 0.6);
+                            transition: width 0.3s ease;
+                        }
+                    }
+
+                    & > .list {
+                        display: none;
+
+                        & > ul {
+                            list-style: none;
+                            scroll-target-group: auto;
+                            display: flex;
+                            flex-direction: column;
+                            white-space: nowrap;
+                            padding: min(5dvw, 5dvh);
+
+                            & > li {
+
+                                &::marker {
+                                    display: none;
+                                }
+
+                                & > a {
+                                    text-decoration: none;
+                                    color: var(--white);
+                                    /* padding: 1dvh 2dvw; */
+                                    display: block;
+                                    pointer-events: all;
+
+                                    &:hover {
+                                        color: var(--gold);
+                                    }
+
+                                    &:target-current {
+                                        color: var(--gold);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
-            & > #head {
+            & > .head {
                 position: relative;
                 width: 100%;
                 height: 100dvh;
@@ -314,7 +391,7 @@
                 }
 
                 & .short {
-                    color: #0A1624;
+                    color: var(--gray);
                     font-size: 20cqmax;
                     font-family: serif;
                     writing-mode: vertical-rl;
@@ -336,7 +413,7 @@
                     align-content: center;
 
                     &::before {
-                        /* content: ""; */
+                        content: "";
                         position: absolute;
                         inset: 0;
                         width: 100%;
@@ -382,6 +459,7 @@
                     & > .short {
                         display: none;
                         z-index: 0;
+                        opacity: 0.7;
                     }
                 }
 
@@ -391,7 +469,7 @@
                     box-sizing: border-box;
                     /* container-type: size; */
                     font-size: 3cqmin;
-                    color: #c9c4b8;
+                    color: var(--white);
                     display: flex;
                     flex-direction: column;
                     justify-content: flex-end;
@@ -440,11 +518,24 @@
             <div class="thumb"></div>
         </div>
         <div class="hum-menu tool">
-            <div></div>
-            <div></div>
-            <div></div>
+            <input type="checkbox" name="" id="hum-menu-checkbox" hidden>
+            <div id="menu">
+                <label for="hum-menu-checkbox" id="hum">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </label>
+                <div class="list">
+                    <ul>
+                        <li><a href="#section0">Home</a></li>
+                        <li><a href="#section1">A New Landmark</a></li>
+                        <li><a href="#section2">Turning Pages of Life</a></li>
+                        <li><a href="#section3">More Than Books</a></li>
+                    </ul>                    
+                </div>
+            </div>
         </div>
-        <div id="head">
+        <div class="head" id="section0">
             <img src="img/invLogo.png" alt="logo" class="logo">
             <span depth="30" style="text-align: center;">
                 <h1>Biblio Baum</h1>
@@ -452,8 +543,7 @@
             </span>
 
         </div>
-        <div class="main">
-            <!-- <div class="short" depth="30" basis="middle">新拠</div> -->
+        <div class="main" id="section1">
             <div class="thumb" style="--image: url('./img/overview.png'); --pos: 50% 100%;">
                 <div class="short" depth="30" basis="middle">新拠</div>
                 <div class="title">A New Landmark</div>
@@ -466,7 +556,7 @@
                     </span>
             </div>
         </div>
-        <div class="main">
+        <div class="main" id="section2" >
             <div class="thumb" style="--image: url('./img/concept.png'); --pos: 50% 50%;">
                 <div class="short" depth="30" basis="middle">邂逅</div>
                 <div class="title">Turning Pages of Life</div>
@@ -479,7 +569,7 @@
                     </span>
             </div>
         </div>
-        <div class="main">
+        <div class="main" id="section3">
             <div class="thumb" style="--image: url('./img/usage.png'); --pos: 50% 50%;">
                 <div class="short" depth="30" basis="middle">体験</div>
                 <div class="title">More Than Books</div>
