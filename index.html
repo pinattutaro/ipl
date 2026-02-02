@@ -112,6 +112,10 @@
                 }
 
                 & > .thumb {
+                    & > .short {
+                        display: block !important;
+                    }
+
                     & > .title {
                         display: block !important;
                     }
@@ -121,6 +125,10 @@
                     justify-content: start !important;
                     /* font-size: clamp(4cqmin, 5cqmin, 6cqmin) !important; */
                     font-size: 4cqmin !important;
+
+                    & > .short {
+                        display: none !important;
+                    }
 
                     & > .title {
                         display: none !important;
@@ -302,18 +310,23 @@
                     animation-range: entry 100% contain 50%;
                     animation-name: titleFadeIn;
                     animation-fill-mode: backwards;
+                    z-index: 100;
                 }
 
-                /* & > .short {
+                & .short {
                     color: #0A1624;
                     font-size: 20cqmax;
                     font-family: serif;
                     writing-mode: vertical-rl;
                     position: absolute;
                     display: inline-block;
+                    /* top: var(--pt);
+                    right: var(--pl); */
                     top: 0;
-                    right: 5dvw;
-                } */
+                    right: 0;
+                    line-height: 1;
+                    z-index: -100;
+                } 
 
                 & > .thumb {
                     z-index: -100;
@@ -323,7 +336,7 @@
                     align-content: center;
 
                     &::before {
-                        content: "";
+                        /* content: ""; */
                         position: absolute;
                         inset: 0;
                         width: 100%;
@@ -335,7 +348,7 @@
                         animation-range: entry 20% entry 40%;
                         animation-name: fadeInLeft;
                         animation-fill-mode: backwards;
-                        /* z-index: -1; */
+                        z-index: inherit;
                     }
 
                     &::after {
@@ -358,13 +371,17 @@
                         animation-range: entry 20% entry 100%;
                         animation-name: fadeInLeft;
                         animation-fill-mode: backwards;
-                        /* z-index: 1; */
+                        z-index: inherit;
                     }
 
                     & > .title {
-                        z-index: 100;
                         left: 0;
                         display: none;
+                    }
+
+                    & > .short {
+                        display: none;
+                        z-index: 0;
                     }
                 }
 
@@ -380,34 +397,13 @@
                     justify-content: flex-end;
                     grid-area: b;
                     min-height: 0;
-                    overflow-y: auto;
+                    min-width: auto;
+                    /* overflow-y: hidden; */
+                    overflow-x: visible;
 
-                    & > .short {
-                        color: #0A1624;
-                        font-size: 20cqmax;
-                        font-family: serif;
-                        /* font-weight: bold; */
-                        writing-mode: vertical-rl;
-                        position: absolute;
-                        display: inline-block;
-                        top: calc(var(--pt)*-1);
-                        /* top: 0; */
-                        right: 0;
-                        line-height: 1;
+                    & > span {
+                        overflow-y: auto;
                     }
-
-                    /* & > .title {
-                        color: var(--gold);
-                        font-size: 12cqmin;
-                        font-weight: bold;
-                        position: relative;
-                        left: -10%;
-                        text-transform: capitalize;
-                        animation-timeline: view();
-                        animation-range: entry 100% contain 50%;
-                        animation-name: titleFadeIn;
-                        animation-fill-mode: backwards;
-                    } */
                 }
 
                 &:nth-of-type(odd) {
@@ -419,14 +415,14 @@
                         animation-name: fadeInRight;
                     }
 
+                    & .short {
+                        right: auto;
+                        left: 0;
+                    }
+
                     & > .article {
                         padding-right: 5%;
                         padding-left: 0;
-
-                        & > .short {
-                            right: auto;
-                            left: 0;
-                        }
 
                         & > .title {
                             left: 10%;
@@ -457,34 +453,44 @@
 
         </div>
         <div class="main">
+            <!-- <div class="short" depth="30" basis="middle">新拠</div> -->
             <div class="thumb" style="--image: url('./img/overview.png'); --pos: 50% 100%;">
+                <div class="short" depth="30" basis="middle">新拠</div>
                 <div class="title">A New Landmark</div>
             </div>
             <div class="article" depth="10" basis="bottom">
                 <div class="short" depth="30" basis="middle">新拠</div>
                 <div class="title">A New Landmark</div>
-                    　Opened in July 2022, the Ishikawa Prefectural Library relocated to Kodatsuno, Kanazawa, on the former site of Kanazawa University's Faculty of Engineering. Nicknamed “Hyakumangoku Biblio Baum,” the library symbolizes growth and learning through encounters with books, people, and information. The five-story building features a distinctive layered exterior of glass and panels and offers a modern space for culture and knowledge.
+                    <span>
+                        　Opened in July 2022, the Ishikawa Prefectural Library relocated to Kodatsuno, Kanazawa, on the former site of Kanazawa University's Faculty of Engineering. Nicknamed “Hyakumangoku Biblio Baum,” the library symbolizes growth and learning through encounters with books, people, and information. The five-story building features a distinctive layered exterior of glass and panels and offers a modern space for culture and knowledge.
+                    </span>
             </div>
         </div>
         <div class="main">
             <div class="thumb" style="--image: url('./img/concept.png'); --pos: 50% 50%;">
+                <div class="short" depth="30" basis="middle">邂逅</div>
                 <div class="title">Turning Pages of Life</div>
             </div>
             <div class="article" depth="10" basis="bottom">
                 <div class="short" depth="30" basis="middle">邂逅</div>
                 <div class="title">Turning Pages of Life</div>
-                    　The library's concept is to be a place where unexpected encounters with books and experiences allow visitors to “turn a new page” in their lives—a theme also expressed in the interior design as “windows for encountering books.” Designed by renowned Japanese architect Mitsuru Senda, the building blends a strong architectural presence with harmony with its surroundings. Inside, extensive use of wood creates a warm atmosphere, while the five traditional Kaga Colors—crimson, indigo, ochre, green, and ancient purple—are subtly incorporated by orientation and on the fourth floor, expressing the cultural identity of Ishikawa.
+                    <span>
+                        　The library's concept is to be a place where unexpected encounters with books and experiences allow visitors to “turn a new page” in their lives—a theme also expressed in the interior design as “windows for encountering books.” Designed by renowned Japanese architect Mitsuru Senda, the building blends a strong architectural presence with harmony with its surroundings. Inside, extensive use of wood creates a warm atmosphere, while the five traditional Kaga Colors—crimson, indigo, ochre, green, and ancient purple—are subtly incorporated by orientation and on the fourth floor, expressing the cultural identity of Ishikawa.
+                    </span>
             </div>
         </div>
         <div class="main">
             <div class="thumb" style="--image: url('./img/usage.png'); --pos: 50% 50%;">
+                <div class="short" depth="30" basis="middle">体験</div>
                 <div class="title">More Than Books</div>
             </div>
             <div class="article" depth="10" basis="bottom">
                 <div class="short" depth="30" basis="middle">体験</div>
                 <div class="title">More Than Books</div>
-                    　Beyond simply reading or borrowing books, the Ishikawa Prefectural Library offers many other ways to enjoy the space. Its distinctive architecture and stylish sofas and chairs—some even featured in popular comics—make the library full of photogenic spots. Photography is allowed, as long as basic manners are respected.
-                    　You'll find it hard not to take photos here. There are even areas where food and drinks are permitted, redefining the traditional image of a silent, no-eating library.
+                    <span>
+                        　Beyond simply reading or borrowing books, the Ishikawa Prefectural Library offers many other ways to enjoy the space. Its distinctive architecture and stylish sofas and chairs—some even featured in popular comics—make the library full of photogenic spots. Photography is allowed, as long as basic manners are respected.
+                        　You'll find it hard not to take photos here. There are even areas where food and drinks are permitted, redefining the traditional image of a silent, no-eating library.
+                    </span>
             </div>
         </div>
         <div class="main"></div>
