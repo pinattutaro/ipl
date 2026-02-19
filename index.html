@@ -4,514 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Document</title>
-    <style>
-        @font-face {
-            font-family: "head";
-            src: url("font/NagomiGokubosoGothic-ExtraLight.otf");
-        }
-
-        @keyframes scroll-delay {
-            from {
-                transform: translateY(calc(var(--start)*1dvh));
-            }
-            50%  {
-                transform: translateY(calc((var(--start) + var(--end))/2 * 1dvh));
-            }
-            to {
-                transform: translateY(calc(var(--end)*1dvh));
-            }
-        }
-
-        @keyframes scroll-delay-in {
-            from {
-                transform: translateY(calc(var(--start)*1dvh));
-            }
-            to {
-                transform: translateY(calc((var(--start) + var(--end)) * 0.5dvh));
-            }
-        }
-
-        @keyframes scroll-delay-out {
-            from {
-                transform: translateY(calc((var(--start) + var(--end)) * 0.5dvh));
-            }
-            to {
-                transform: translateY(calc(var(--end)*1dvh));
-            }
-        }
-
-        @keyframes scroll-bar {
-            from {
-                top: 0;
-            }
-
-            to {
-                top: 70%;
-            }
-        }
-
-        @keyframes titleFadeIn {
-            from {
-                transform: translateY(100%);
-                clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
-            }
-            to {
-                transform: translateY(0);
-                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-            }
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                left: -100%;
-            }
-            10% {
-                opacity: 0.5;
-                left: -50%;
-            }
-            to {
-                opacity: 1;
-                left: 0;
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                left: 100%;
-            }
-            10% {
-                opacity: 0.5;
-                left: 50%;
-            }
-            to {
-                opacity: 1;
-                left: 0%;
-            }
-        }
-
-        :root {
-            --main: #08121D;
-            --gold: #70644F;
-            --white: #c9c4b8;
-            --gray: #0A1624;
-        }
-
-        @media (orientation: portrait) {
-            #page > .main {
-                grid-template-areas: "a a" "b b" !important;
-
-                &:nth-of-type(odd) {
-                    & > .thumb > .title {
-                        text-align: right !important;
-                    }
-                }
-
-                & > .thumb {
-                    & > .short {
-                        display: block !important;
-                    }
-
-                    & > .title {
-                        display: block !important;
-                    }
-                }
-
-                & > .article {
-                    justify-content: start !important;
-                    font-size: 4cqmin !important;
-
-                    & > .short {
-                        display: none !important;
-                    }
-
-                    & > .title {
-                        display: none !important;
-                    }
-                }
-            }
-        }
-
-        *::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-            display: none;
-        }
-
-        html {
-            width: 100dvw;
-            position: absolute;
-            left: 0;
-            overflow-x: hidden;
-            overflow-y: auto;
-            scroll-snap-type: y mandatory;
-            --main-animation-timeline: scroll(root);
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100dvw;
-            min-height: 100dvh;
-            background: var(--main);
-        }
-
-        *[depth] {
-            z-index: calc(attr(depth number)*-1);
-            animation-timeline: view();
-            animation-name: scroll-delay-in, scroll-delay-out;
-            animation-range: entry 0% contain 100%, exit 0% exit 100%;
-            animation-fill-mode: both, forwards;
-            --start: calc(attr(depth number) * -0.5);
-            --end: calc(attr(depth number) * 0.5);
-
-            /* &[basis="top"] {
-                --start: 0;
-                --end: calc(attr(depth number) * 1);
-            }
-
-            &[basis="bottom"] {
-                --start: calc(attr(depth number) * -1);
-                --end: 0;
-            } */
-        }
-
-        #page {
-            width: 100%;
-            min-height: 100dvh;
-
-            & > div:not(.tool) {
-                scroll-snap-align: start;
-                container-type: size;
-                overflow: clip;
-            }
-
-            & > .scroll {                
-                position: fixed;
-                right: 1dvw;
-                top: 25dvh;
-                background-color: #42484B;
-                width: 2px;
-                height: 50dvh;
-                z-index: 0;
-
-                & > .thumb {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 30%;
-                    background-color: var(--gold);
-                    animation: scroll-bar linear;
-                    animation-timeline: var(--main-animation-timeline);
-                    animation-range: 0% 100%
-
-                }
-            }
-
-            & > .hum-menu {
-                position: fixed;
-                top: 0;
-                right: 0;
-                z-index: 10;
-
-                & > #hum-menu-checkbox:checked + #menu {
-                    background-color: var(--main);
-
-                    & > #hum {
-                        &::after {
-                            content: "Close";
-                            color: var(--white);
-                            position: absolute;
-                            top: 0;
-                            right: 150%;
-                            height: 100%;
-                            font-size: 75%;
-                            display: grid;
-                            align-content: center;
-                        }
-
-                        & > div {
-                            opacity: 0;
-
-                            &:nth-of-type(2) {
-                                opacity: 1;
-                            }
-                        }
-                    }
-
-                    & > .list {
-                        display: block;
-                    }
-                }
-
-                & > #menu {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    width: fit-content;
-                    height: 100dvh;
-                    /* background-color: var(--main); */
-                    background-color: transparent;
-                    opacity: 0.8;
-                    font-size: calc(3*max(1dvw, 1dvh));
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-end;
-
-                    & > #hum {
-                        position: relative;
-                        top: 2dvh;
-                        right: 2dvw;
-                        width: max(2dvw, 5dvh);
-                        height: calc(25 / 40 * max(2dvw, 5dvh));
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-around;
-                        align-items: center;
-                        cursor: pointer;     
-                        
-                        &:hover > div:nth-of-type(2) {
-                            width: 140%;
-                        }
-
-                        & > div {
-                            width: 100%;
-                            height: 2px;
-                            background-color: rgba(255, 255, 255, 0.6);
-                            transition: width 0.3s ease;
-                        }
-                    }
-
-                    & > .list {
-                        display: none;
-
-                        & > ul {
-                            list-style: none;
-                            scroll-target-group: auto;
-                            display: flex;
-                            flex-direction: column;
-                            white-space: nowrap;
-                            padding: min(5dvw, 5dvh);
-
-                            & > li {
-
-                                &::marker {
-                                    display: none;
-                                }
-
-                                & > a {
-                                    text-decoration: none;
-                                    color: var(--white);
-                                    /* padding: 1dvh 2dvw; */
-                                    display: block;
-                                    pointer-events: all;
-
-                                    &:hover {
-                                        color: var(--gold);
-                                    }
-
-                                    &:target-current {
-                                        color: var(--gold);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            & > .head {
-                position: relative;
-                width: 100%;
-                height: 100dvh;
-                z-index: 0;
-                container-name: main-container;
-
-                background-image: url("img/header.png");
-                background-size: cover;
-                background-repeat: no-repeat;;
-                background-position: 50% 100%;
-                background-attachment: fixed;
-                background-color:rgba(0,0,0,0.4);
-                background-blend-mode: multiply;
-                font-size: 5cqmin;
-
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                font-family: serif;
-                color: white;     
-
-                & > .logo {
-                    position: absolute;
-                    top: 10px;
-                    left: 10px;
-                    width: 150px;
-                    height: auto;
-                    backdrop-filter: blur(2px);
-                    padding: 2px;
-                }
-                
-                & h1, h2 {
-                    margin: 0;
-                    padding: 0;
-                }
-            }
-
-            & > .main {
-                --pt: 5cqmin;
-                --pl: 10cqmin;
-                width: 100%;
-                height: 100dvh;
-                position: relative;
-                padding: var(--pt) var(--pl);
-                box-sizing: border-box;
-                display: grid;
-                grid-template-columns: 2fr 3fr;
-                grid-template-rows: 1fr 1fr;
-                grid-template-areas: "a b" "a b";
-                align-items: stretch;
-                font-family: serif;
-
-                & .title {
-                    color: var(--gold);
-                    font-size: 12cqmin;
-                    font-weight: bold;
-                    position: relative;
-                    left: -10%;
-                    text-transform: capitalize;
-                    animation-timeline: view();
-                    animation-range: entry 100% contain 50%;
-                    animation-name: titleFadeIn;
-                    animation-fill-mode: backwards;
-                    z-index: 100;
-                }
-
-                & .short {
-                    color: var(--gray);
-                    font-size: 20cqmax;
-                    font-family: serif;
-                    writing-mode: vertical-rl;
-                    position: absolute;
-                    display: inline-block;
-                    /* top: var(--pt);
-                    right: var(--pl); */
-                    top: 0;
-                    right: 0;
-                    line-height: 1;
-                    z-index: -100;
-                } 
-
-                & > .thumb {
-                    z-index: -100;
-                    position: relative;
-                    grid-area: a;
-                    display: grid;
-                    align-content: center;
-
-                    &::before {
-                        content: "";
-                        position: absolute;
-                        inset: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-color: rgba(0,0,0,1);
-                        border:  solid 1px var(--gold);
-                        opacity: 0.3;
-                        animation-timeline: view();
-                        animation-range: entry 0% contain 60%;
-                        animation-name: fadeInLeft;
-                        animation-fill-mode: backwards;
-                        z-index: inherit;
-                        filter: blur(5px);
-                    }
-
-                    &::after {
-                        content: "";
-                        position: absolute;
-                        inset: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-image: var(--image);
-                        /* background-size: 100% auto; */
-                        background-size: cover;
-                        background-position: var(--pos);
-                        /* background-size: cover;
-                        background-position: center; */
-                        background-repeat: no-repeat;
-                        background-attachment: fixed;
-                        background-color:rgba(0,0,0,0.2);
-                        background-blend-mode: multiply;
-                        animation-timeline: view();
-                        animation-range: entry 20% contain 100%;
-                        animation-name: fadeInLeft;
-                        animation-fill-mode: backwards;
-                        z-index: inherit;
-                    }
-
-                    & > .title {
-                        left: 0;
-                        display: none;
-                    }
-
-                    & > .short {
-                        display: none;
-                        z-index: 0;
-                        opacity: 0.7;
-                    }
-                }
-
-                & > .article {
-                    padding-left: 5%;
-                    padding-top: 5%;
-                    box-sizing: border-box;
-                    /* container-type: size; */
-                    font-size: 3cqmin;
-                    color: var(--white);
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: flex-end;
-                    grid-area: b;
-                    min-height: 0;
-                    min-width: auto;
-                    /* overflow-y: hidden; */
-                    overflow-x: visible;
-
-                    & > span {
-                        overflow-y: auto;
-                    }
-                }
-
-                &:nth-of-type(odd) {
-                    grid-template-columns: 3fr 2fr;
-                    grid-template-rows: 1fr 1fr;
-                    grid-template-areas: "b a" "b a";
-
-                    & > .thumb::before, & > .thumb::after {
-                        animation-name: fadeInRight;
-                    }
-
-                    & .short {
-                        right: auto;
-                        left: 0;
-                    }
-
-                    & > .article {
-                        padding-right: 5%;
-                        padding-left: 0;
-
-                        & > .title {
-                            left: 10%;
-                            text-align: right;
-                        }
-                    }
-                }
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="default.css">
 </head>
 <body>
     <div id="page">
@@ -552,9 +45,9 @@
             <div class="article" depth="10" basis="bottom">
                 <div class="short" depth="30" basis="middle">新拠</div>
                 <div class="title">A New Landmark</div>
-                    <span>
-                        　Opened in July 2022, the Ishikawa Prefectural Library relocated to Kodatsuno, Kanazawa, on the former site of Kanazawa University's Faculty of Engineering. Nicknamed “Hyakumangoku Biblio Baum,” the library symbolizes growth and learning through encounters with books, people, and information. The five-story building features a distinctive layered exterior of glass and panels and offers a modern space for culture and knowledge.
-                    </span>
+                <span>
+                    　Opened in July 2022, the Ishikawa Prefectural Library relocated to Kodatsuno, Kanazawa, on the former site of Kanazawa University's Faculty of Engineering. Nicknamed “Hyakumangoku Biblio Baum,” the library symbolizes growth and learning through encounters with books, people, and information. The five-story building features a distinctive layered exterior of glass and panels and offers a modern space for culture and knowledge.
+                </span>
             </div>
         </div>
         <div class="main" id="section2" >
@@ -565,9 +58,9 @@
             <div class="article" depth="10" basis="bottom">
                 <div class="short" depth="30" basis="middle">邂逅</div>
                 <div class="title">Turning Pages of Life</div>
-                    <span>
-                        　The library's concept is to be a place where unexpected encounters with books and experiences allow visitors to “turn a new page” in their lives—a theme also expressed in the interior design as “windows for encountering books.” Designed by renowned Japanese architect Mitsuru Senda, the building blends a strong architectural presence with harmony with its surroundings. Inside, extensive use of wood creates a warm atmosphere, while the five traditional Kaga Colors—crimson, indigo, ochre, green, and ancient purple—are subtly incorporated by orientation and on the fourth floor, expressing the cultural identity of Ishikawa.
-                    </span>
+                <span>
+                    　The library's concept is to be a place where unexpected encounters with books and experiences allow visitors to “turn a new page” in their lives—a theme also expressed in the interior design as “windows for encountering books.” Designed by renowned Japanese architect Mitsuru Senda, the building blends a strong architectural presence with harmony with its surroundings. Inside, extensive use of wood creates a warm atmosphere, while the five traditional Kaga Colors—crimson, indigo, ochre, green, and ancient purple—are subtly incorporated by orientation and on the fourth floor, expressing the cultural identity of Ishikawa.
+                </span>
             </div>
         </div>
         <div class="main" id="section3">
@@ -578,13 +71,33 @@
             <div class="article" depth="10" basis="bottom">
                 <div class="short" depth="30" basis="middle">体験</div>
                 <div class="title">More Than Books</div>
-                    <span>
-                        　Beyond simply reading or borrowing books, the Ishikawa Prefectural Library offers many other ways to enjoy the space. Its distinctive architecture and stylish sofas and chairs—some even featured in popular comics—make the library full of photogenic spots. Photography is allowed, as long as basic manners are respected.
-                        　You'll find it hard not to take photos here. There are even areas where food and drinks are permitted, redefining the traditional image of a silent, no-eating library.
-                    </span>
+                <span>
+                    　Beyond simply reading or borrowing books, the Ishikawa Prefectural Library offers many other ways to enjoy the space. Its distinctive architecture and stylish sofas and chairs—some even featured in popular comics—make the library full of photogenic spots. Photography is allowed, as long as basic manners are respected. <br>
+                    　You'll find it hard not to take photos here. There are even areas where food and drinks are permitted, redefining the traditional image of a silent, no-eating library.
+                </span>
             </div>
         </div>
-        <div class="main"></div>
+        <div class="main slide" id="section4">
+            <!-- <div class="thumb" style="--image: url('./img/usage.png'); --pos: 50% 50%;">
+                <div class="short" depth="30" basis="middle">探索</div>
+                <div class="title">A Universe of Books</div>
+            </div> -->
+            <div class="thumb">
+                <div class="item" style="--image: url('./img/bookrium0.png'); --pos: 50% 50%;"></div>
+                <div class="item" style="--image: url('./img/bookrium1.png'); --pos: 50% 50%;"></div>
+                <div class="item" style="--image: url('./img/bookrium2.png'); --pos: 50% 50%;"></div>
+                <div class="item" style="--image: url('./img/bookrium3.png'); --pos: 50% 50%;"></div>
+                <div class="item" style="--image: url('./img/bookrium4.png'); --pos: 50% 50%;"></div>
+                <div class="item" style="--image: url('./img/bookrium5.png'); --pos: 50% 50%;"></div>
+            </div>
+            <div class="article" depth="10" basis="bottom">
+                <div class="short" depth="30" basis="middle">探索</div>
+                <div class="title">A Universe of Books</div>
+                <span>
+                    　Upon entering Bookrium, visitors step from darkness into a 15-meter-wide wall screen where books are visualized as a rotating universe. Interactive touch panels allow exploration of Ishikawa-related, children's, and adult books, revealing their content and locations. As related titles expand across the screen, Bookrium invites unexpected discoveries and new encounters with books.
+                </span>
+            </div>
+        </div>        
     </div>
 </body>
 </html>
